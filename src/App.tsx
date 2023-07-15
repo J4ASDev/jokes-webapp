@@ -1,9 +1,9 @@
-import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
+import ProtectedRoute from './components/HOCs/ProtectedRoute'
 import LoginContainer from './containers/Login'
 import DashboardContainer from './containers/Dashboard'
-import ProtectedRoute from './components/HOCs/ProtectedRoute'
+import CreateOrUpdateJokeContainer from './containers/CreateOrUpdateJoke'
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardContainer />} />
+          <Route path="/joke-form" element={<CreateOrUpdateJokeContainer />} />
         </Route>
       </Routes>
     </Router>
