@@ -3,18 +3,18 @@ import { useFormContext } from 'react-hook-form'
 
 type Props = {
   name: string,
-  type?: string
+  type?: 'text' | 'number'
 }
 
 function Input({ name, type = 'text' }: Props) {
   const { register, formState: { errors }  } = useFormContext()
 
-  const error: string = useMemo(() => String(errors[name]?.message), [errors[name]])
+  const error: string = useMemo(() => String(errors[name]?.message || ''), [errors[name]])
 
   return (
     <div>
       <input type={type} {...register(name)} />
-      <small>{error}</small>
+      <small style={{ opacity: Boolean(error) ? '1' : '0' }}>{error}</small>
     </div>
   )
 }
