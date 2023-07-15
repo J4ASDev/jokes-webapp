@@ -11,7 +11,15 @@ export default  function (url: string, options?: RequestInit): Response {
 
   useEffect(() => {
       fetch(url, options)
-        .then(res => res.json())
+        .then(async res => {
+          const data = await res.json()
+
+          if (res.status < 200 || res.status > 299) {
+            throw new Error(data?.message)
+          }
+
+          return data
+        })
         .then((data) => setData(data))
         .catch((error) => setError(error))
   }, [])
