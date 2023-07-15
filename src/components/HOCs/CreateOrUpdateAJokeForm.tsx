@@ -13,11 +13,14 @@ const schema = yup.object().shape({
     .min(0, 'Views has to be 0 or greater')
 })
 
-function CreateOrUpdateAJokeForm({ children, defaultValues }: any): JSX.Element {
+function CreateOrUpdateAJokeForm({ children, defaultValues = {} }: any): JSX.Element {
   const options = useMemo(() => ({
     mode: 'onSubmit',
     resolver: yupResolver(schema),
-    defaultValues
+    defaultValues: {
+      views: 0,
+      ...defaultValues
+    }
   }), [])
 
   return <Form options={options}>{children}</Form>
