@@ -8,7 +8,9 @@ const schema = yup.object().shape({
   title: yup.string().required('Field is required'),
   body: yup.string().required('Field is required'),
   author: yup.string().required('Field is required'),
-  views: yup.number().min(0, 'Views has to be 0 or greater'),
+  views: yup.number()
+    .typeError('Field should contain numbers')
+    .min(0, 'Views has to be 0 or greater')
 })
 
 function CreateOrUpdateAJokeForm({ children, defaultValues }: any): JSX.Element {
