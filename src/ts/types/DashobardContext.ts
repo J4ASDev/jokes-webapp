@@ -1,13 +1,21 @@
 import ItemsPerPageEnum from '../enums/ItemsPerPageEnum'
+import JokesSortEnum from '../enums/JokesSortEnum'
 import Jokes from '../interfaces/Jokes'
+
+export type DashboardUpdateDataType = {
+  newPage?: number,
+  newLimit?: ItemsPerPageEnum,
+  newSortBy?: JokesSortEnum | '' | string,
+}
 
 type DashobardContext = {
   data: Jokes[],
   error: boolean,
-  updateData: (page: ItemsPerPageEnum, limit: number) => void,
+  updateData: (options?: DashboardUpdateDataType) => void,
   updateError?: (err: Error | null) => void,
   page: number,
-  limit: ItemsPerPageEnum
+  limit: ItemsPerPageEnum,
+  sortBy: JokesSortEnum | string
 }
 
 export default DashobardContext
