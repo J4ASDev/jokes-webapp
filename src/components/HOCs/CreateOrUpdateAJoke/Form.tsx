@@ -2,9 +2,11 @@ import { useMemo } from 'react'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import Form from './Form'
+import Form from '../Form'
 
 const schema = yup.object().shape({
+  id: yup.string().required('Field is required'),
+  createdAt: yup.string().required('Field is required'),
   title: yup.string().required('Field is required'),
   body: yup.string().required('Field is required'),
   author: yup.string().required('Field is required'),
