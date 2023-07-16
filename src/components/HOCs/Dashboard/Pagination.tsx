@@ -8,7 +8,7 @@ import ItemsPerPageEnum from '../../../ts/enums/ItemsPerPageEnum'
 function Pagination() {
   const { data, page, limit, updateData } = useContext()
 
-  const isItMinimun: boolean = useMemo(() => page === 0, [page])
+  const isItMinimun: boolean = useMemo(() => page === 1, [page])
   const isItMaximun: boolean = useMemo(() => data.length < limit, [data, limit])
 
   // Min page is zero
@@ -29,10 +29,10 @@ function Pagination() {
     <Wrapper>
       <Button onClick={goBack} text='<' />
 
-      <select defaultValue={limit} onChange={onChangeLimit}>
+      <Select defaultValue={limit} onChange={onChangeLimit}>
         <option value={ItemsPerPageEnum.FIVE}>{ItemsPerPageEnum.FIVE}</option>
         <option value={ItemsPerPageEnum.TEN}>{ItemsPerPageEnum.TEN}</option>
-      </select>
+      </Select>
 
       <Button onClick={goNext} text='>' />
     </Wrapper>
@@ -44,4 +44,10 @@ const Wrapper = styled.div`
   gap: 10px;
 `
 
+const Select = styled.select`
+  width: 200px;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
+`
 export default Pagination
