@@ -1,7 +1,7 @@
 import Jokes from './Jokes'
 
 interface GetJokesResponse {
-  data: Jokes[]
+  data: Jokes[] | []
   error: null | Error
 }
 
