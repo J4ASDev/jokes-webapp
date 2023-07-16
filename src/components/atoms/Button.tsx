@@ -2,6 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 type Props = {
+  disabled?: boolean,
+  selected?: boolean,
+  
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
   text: string,
   type?: 'button' | 'submit' | 'reset' | undefined
@@ -9,9 +12,19 @@ type Props = {
   styledType?: 'primary' | 'error'
 }
 
-function Button({ onClick, text, type, dataset, styledType }: Props) {
+function Button({
+  onClick,
+  text,
+  type,
+  dataset,
+  disabled,
+  selected,
+  styledType
+}: Props) {
   return (
     <ButtonStyled
+      disabled={disabled}
+      selected={selected}
       onClick={onClick}
       type={type}
       data-value={dataset}
@@ -29,7 +42,9 @@ const ButtonStyled = styled.button<any>`
   border-radius: 5px;
   font-weight: 600;
   font-size: 16px;
-  cursor: pointer;
+
+  cursor: ${({ disabled }) => disabled ? 'no-drop' : 'pointer'};
+  opacity: ${({ disabled, selected }) => (disabled || selected) ? 0.5 : 1};
 
   ${({ theme, styledType }) => {
     if (styledType === 'error') return `
