@@ -13,16 +13,16 @@ function Pagination() {
 
   // Min page is zero
   const goBack = useCallback(() => {
-    if (!isItMinimun) updateData(page - 1, limit)
+    if (!isItMinimun) updateData({ newPage: page - 1 })
   }, [isItMinimun, page, limit])
 
   // If It's maximun it shouldn't call 'next' because there's no more items
   const goNext = useCallback(() => {
-    if (!isItMaximun) return updateData(page + 1, limit)
+    if (!isItMaximun) return updateData({ newPage: page + 1 })
   }, [isItMaximun, page, limit])
 
   const onChangeLimit = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    updateData(page, Number(e.target.value))
+    updateData({ newLimit: Number(e.target.value) })
   }, [page])
 
   return (

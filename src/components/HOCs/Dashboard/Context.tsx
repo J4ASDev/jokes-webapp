@@ -1,16 +1,20 @@
-import { useState, createContext, useContext, useEffect, useCallback } from 'react'
+import { useState, createContext, useContext, useCallback } from 'react'
 
-import DashobardContext from '../../../ts/types/DashobardContext'
+import useFetch, { HookResponse } from '../../../hooks/useFetch'
+import DashobardContext, { DashboardUpdateDataType } from '../../../ts/types/DashobardContext'
 import GetJokesResponse from '../../../ts/interfaces/GetJokesResponse'
-import useJokes, { JokesHookResponse } from './useJokes'
 import ItemsPerPageEnum from '../../../ts/enums/ItemsPerPageEnum'
+import JokesSortEnum from '../../../ts/enums/JokesSortEnum'
+
+const API_JOKES: string = process.env.REACT_APP_API || 'https://retoolapi.dev/zu9TVE/jokes'
 
 const Context = createContext<DashobardContext>({
   data: [],
   error: false,
   page: 1,
   limit: ItemsPerPageEnum.FIVE,
-  updateData(){}
+  updateData(){},
+  sortBy: ''
 })
 
 type Props = {
@@ -20,30 +24,30 @@ type Props = {
 export function ContextProvider({ children }: Props) {
   const [data, setData] = useState<GetJokesResponse['data']>([])
   const [error, setError] = useState<GetJokesResponse['error']>(null)
+
   const [page, setPage] = useState<number>(1)
   const [limit, setLimit] = useState<ItemsPerPageEnum>(ItemsPerPageEnum.FIVE)
+  const [sortBy, setSortBy] = useState<JokesSortEnum | string>('')
 
-  const [getJokes]: JokesHookResponse = useJokes()
+  const [_, getFetch]: HookResponse = useFetch()
 
-  const updateData = useCallback(async (entryPage: number, entryLimit: ItemsPerPageEnum) => {
-    const newPage: number = entryPage || page
-    const newLimit: number = entryLimit || limit
+  const updateData = useCallback(async (options?: DashboardUpdateDataType) => {
+    const { newPage = page, newLimit = limit, newSortBy = '' } = options || {}
 
-    setPage(newPage)
-    setLimit(newLimit)
+    if (newPage !== page) setPage(newPage)
+    if (newLimit !== limit) setLimit(newLimit)
+    if (newSortBy !== sortBy) setSortBy(newSortBy)
 
-    const { data, error }: GetJokesResponse  = await getJokes(newPage, newLimit)
+    const url: string = `${API_JOKES}/?_page=${newPage}&_limit=${newLimit}&_sort=${newSortBy}`
+
+    const { data, error } = await getFetch(url)
 
     setData(data)
     setError(error)
-  }, [page, limit])
-
-  useEffect(() => {
-    (() => updateData(1, ItemsPerPageEnum.FIVE))()
-  }, [])
+  }, [page, limit, sortBy])
 
   return (
-    <Context.Provider value={{ data, error: Boolean(error), updateData, page, limit }}>
+    <Context.Provider value={{ data, error: Boolean(error), updateData, page, limit, sortBy }}>
       {children}
     </Context.Provider>
   )
