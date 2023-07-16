@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
+import styled from 'styled-components'
 
 type Props = {
   name: string,
@@ -12,11 +13,30 @@ function Input({ name, type = 'text' }: Props) {
   const error: string = useMemo(() => String(errors[name]?.message || ''), [errors[name]])
 
   return (
-    <div>
-      <input type={type} {...register(name)} />
-      <small style={{ opacity: Boolean(error) ? '1' : '0' }}>{error}</small>
-    </div>
+    <InputWrapper>
+      <InputStyled type={type} {...register(name)} />
+      <InputMessage error={Boolean(error)}>{error}</InputMessage>
+    </InputWrapper>
   )
 }
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 5px;
+`
+
+const InputStyled = styled.input`
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+`
+
+const InputMessage = styled.small<any>`
+  height: 16px;
+  text-align: end;
+  color: ${({ error, theme }) => error ? theme.tomato : 'black'};
+`
 
 export default Input
