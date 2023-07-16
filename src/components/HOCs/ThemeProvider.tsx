@@ -5,7 +5,9 @@ import useDarkMode from '../../hooks/useDarkMode'
 import ThemeEnum from '../../ts/enums/ThemeEnum'
 
 const DARKMODE = {
+  font: '#fff',
   background: '#292929',
+  side: '#575757',
   tomato: '#FF9B79',
   orange: '#FFDC4F',
   yellow: '#FFFF60',
@@ -13,6 +15,7 @@ const DARKMODE = {
 }
 
 const LIGHTMODE = {
+  font: '#121212',
   background: '#E5E5E5',
   tomato: '#FF6347',
   orange: '#FFA500',
@@ -43,9 +46,17 @@ export function StylesThemeProvider({ children }: Props) {
 }
 
 const GlobalStyles = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+
   body {
     background: ${({ theme }) => theme.background};
+    color: ${({ theme }) => theme.font};
     transition: background 0.2s ease-in, color 0.2s ease-in;
+  }
+
+  body, input, button {
+    font-family: 'Open Sans', sans-serif;
+    color: ${({ theme }) => theme.font};
   }
 `;
 
