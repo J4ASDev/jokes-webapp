@@ -6,6 +6,7 @@ import Form from '../Form'
 
 const schema = yup.object().shape({
   search: yup.string(),
+  sortby: yup.string(),
 })
 
 function DashboardForm({ children, defaultValues}: any): JSX.Element {
