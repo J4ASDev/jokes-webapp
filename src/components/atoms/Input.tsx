@@ -4,18 +4,19 @@ import styled from 'styled-components'
 
 type Props = {
   name: string,
-  type?: 'text' | 'number'
+  type?: 'text' | 'number',
+  placeholder?: string
 }
 
-function Input({ name, type = 'text' }: Props) {
+function Input({ name, type = 'text', placeholder }: Props) {
   const { register, formState: { errors }  } = useFormContext()
 
-  const error: string = useMemo(() => String(errors[name]?.message || ''), [errors[name]])
+  const error: string = useMemo(() => String(errors[name]?.message || ''), [errors, name])
 
   return (
     <InputWrapper>
-      <InputStyled type={type} {...register(name)} />
-      <InputMessage error={Boolean(error)}>{error}</InputMessage>
+      <InputStyled type={type} {...register(name)} placeholder={placeholder} />
+      <InputMessage error={error?.toString()}>{error}</InputMessage>
     </InputWrapper>
   )
 }
@@ -28,15 +29,21 @@ const InputWrapper = styled.div`
 `
 
 const InputStyled = styled.input`
-  border: none;
   padding: 10px;
   border-radius: 10px;
+  border: 1px solid transparent;
+
+  &:focus {
+    outline: none !important;
+    border: 1px solid lightgray;
+    box-shadow: none;
+  }
 `
 
-const InputMessage = styled.small<any>`
+const InputMessage = styled.small<{ error: string }>`
   height: 16px;
   text-align: end;
-  color: ${({ error, theme }) => error ? theme.tomato : 'black'};
+  color: ${({ error, theme }) => Boolean(error) ? theme.tomato : theme.font};
 `
 
 export default Input

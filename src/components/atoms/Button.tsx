@@ -4,12 +4,13 @@ import styled from 'styled-components'
 type Props = {
   disabled?: boolean,
   selected?: boolean,
-  
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
   text: string,
   type?: 'button' | 'submit' | 'reset' | undefined
   dataset?: string,
-  styledType?: 'primary' | 'error'
+  styledtype?: 'primary' | 'error',
+  height?: string,
+  width?: string,
 }
 
 function Button({
@@ -19,7 +20,9 @@ function Button({
   dataset,
   disabled,
   selected,
-  styledType
+  styledtype,
+  height,
+  width,
 }: Props) {
   return (
     <ButtonStyled
@@ -28,7 +31,9 @@ function Button({
       onClick={onClick}
       type={type}
       data-value={dataset}
-      styledType={styledType}
+      styledtype={styledtype}
+      height={height}
+      width={width}
     >
       {text}
     </ButtonStyled>
@@ -36,18 +41,17 @@ function Button({
 }
 
 const ButtonStyled = styled.button<any>`
-  width: 145px;
-  height: 40px;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
   border: none;
   border-radius: 5px;
-  font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
 
   cursor: ${({ disabled }) => disabled ? 'no-drop' : 'pointer'};
   opacity: ${({ disabled, selected }) => (disabled || selected) ? 0.5 : 1};
 
-  ${({ theme, styledType }) => {
-    if (styledType === 'error') return `
+  ${({ theme, styledtype }) => {
+    if (styledtype === 'error') return `
       background: ${theme.tomato};
       color: #fff;
     `
