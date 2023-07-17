@@ -52,7 +52,11 @@ const GlobalStyles = createGlobalStyle`
     transition: background 0.2s ease-in, color 0.2s ease-in;
   }
 
-  body, input, button {
+  p {
+    margin: 0;
+  }
+
+  body, input, button, a {
     font-family: 'Open Sans', sans-serif;
     color: ${({ theme }) => theme.font};
   }

@@ -1,6 +1,6 @@
 type SelectOptions = {
-  value: string,
-  text: string,
+  value: string | number,
+  text: string | number,
 }
 
 export default SelectOptions
