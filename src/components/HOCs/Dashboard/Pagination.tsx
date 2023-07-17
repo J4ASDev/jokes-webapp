@@ -6,35 +6,37 @@ import Button from '../../atoms/Button'
 import ItemsPerPageEnum from '../../../ts/enums/ItemsPerPageEnum'
 
 function Pagination() {
-  const { data, page, limit, updateData } = useContext()
+  const { data, page, limit, filter, updateData } = useContext()
 
   const isItMinimun: boolean = useMemo(() => page === 1, [page])
   const isItMaximun: boolean = useMemo(() => data.length < limit, [data, limit])
 
   // Min page is zero
   const goBack = useCallback(() => {
-    if (!isItMinimun) updateData({ newPage: page - 1 })
-  }, [isItMinimun, page, limit])
+    if (!isItMinimun) updateData(page - 1, limit, filter)
+  }, [isItMinimun, page, limit, filter, updateData])
 
   // If It's maximun it shouldn't call 'next' because there's no more items
   const goNext = useCallback(() => {
-    if (!isItMaximun) return updateData({ newPage: page + 1 })
-  }, [isItMaximun, page, limit])
+    if (!isItMaximun) updateData(page + 1, limit, filter)
+  }, [isItMaximun, page, limit, filter, updateData])
 
-  const onChangeLimit = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    updateData({ newLimit: Number(e.target.value) })
-  }, [page])
+  const onChangeLimit = useCallback(({ target }: React.ChangeEvent<HTMLSelectElement>) => {
+    const limit: number = Number(target.value)
+
+    updateData(page, limit, filter)
+  }, [page, filter, updateData])
 
   return (
     <Wrapper>
-      <Button onClick={goBack} text='<' />
+      <Button onClick={goBack} text='<' type='button' />
 
       <Select defaultValue={limit} onChange={onChangeLimit}>
         <option value={ItemsPerPageEnum.FIVE}>{ItemsPerPageEnum.FIVE}</option>
         <option value={ItemsPerPageEnum.TEN}>{ItemsPerPageEnum.TEN}</option>
       </Select>
 
-      <Button onClick={goNext} text='>' />
+      <Button onClick={goNext} text='>' type='button' />
     </Wrapper>
   )
 }

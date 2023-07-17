@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import styled from 'styled-components'
 import { useFormContext } from 'react-hook-form'
 
@@ -13,34 +12,24 @@ const _OPTIONS = [
 ]
 
 function SearchFilter() {
-  const { updateData, filter } = useContext()
+  const { updateData, limit, page } = useContext()
   const { handleSubmit } = useFormContext()
 
-  const onSubmit = useCallback(
-    handleSubmit(({ search, searchSortby }: any) => {
-      updateData({ newFilter: `&${searchSortby}=${search}` })
-    }),
-    [handleSubmit, updateData]
-  )
+  const onSubmit = handleSubmit(({ search, sortby }: any) => {
+    let filter: string = !!search ? `&${sortby}=${search}` : `&_sort=${sortby}`
 
-  const handleReset = useCallback(() => updateData({ newFilter: '' }), [updateData])
+    updateData(page, limit, filter)
+  })
 
   return (
     <Wrapper>
       <Input name='search' placeholder='Search by...' />
-      <Select name='searchSortby' options={_OPTIONS} />
+      <Select name='sortby' options={_OPTIONS} />
       <Button
-        text='+'
-        width='40px'
+        text='Search'
+        width='80px'
         height='40px'
         onClick={onSubmit}
-      />
-      <Button
-        text='Reset'
-        height='40px'
-        onClick={handleReset}
-        type='button'
-        disabled={filter === ''}
       />
     </Wrapper>
   )
