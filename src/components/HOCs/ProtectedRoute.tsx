@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 
 function ProtectedRoute({ children }: any) {
