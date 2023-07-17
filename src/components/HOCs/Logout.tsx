@@ -14,7 +14,13 @@ function Logout() {
   }, [])
 
   return (
-    <Button onClick={handleLogout} text='Log out' />
+    <Button
+      onClick={handleLogout}
+      text='Log out'
+      width='130px'
+      height='40px'
+      type='button'
+    />
   )
 }
 

@@ -46,8 +46,6 @@ export function StylesThemeProvider({ children }: Props) {
 }
 
 const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
-
   body {
     background: ${({ theme }) => theme.background};
     color: ${({ theme }) => theme.font};
@@ -60,4 +58,7 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-export default () => useContext(Context)
+export default function useThemeContext() {
+  return useContext(Context)
+}
+
