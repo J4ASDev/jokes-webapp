@@ -33,13 +33,22 @@ function CreateOrUpdateJokeTemplate({
       </FormContent>
 
       <Footer>
-        <Button onClick={onSubmit} text='Submit' type='submit' styledtype='primary' />
+        <Button
+          onClick={onSubmit}
+          text='Submit'
+          type='submit'
+          styledtype='primary'
+          width='150px'
+          height='45px'
+        />
         <Button
           disabled={!isItUpdating}
           onClick={handleDelete}
           text='Delete'
           type='button'
           styledtype='error'
+          width='150px'
+          height='45px'
         />
       </Footer>
     </Wrapper>

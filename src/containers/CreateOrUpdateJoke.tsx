@@ -8,35 +8,38 @@ import useFetch, { HookResponse } from '../hooks/useFetch'
 
 const API_JOKES: string = process.env.REACT_APP_API || 'https://retoolapi.dev/zu9TVE/jokes'
 
+// DELETE, POST AND PUT are not working.
+// Those endpoints always say: "Data did not have id field".
+// However as this is a test; `handleDelete` and `onSubmit` are acting as 'success'.
+
 function CreateOrUpdateJokeContainer() {
   const navigate = useNavigate()
   const { state } = useLocation()
   const { handleSubmit } = useFormContext()
 
-  const [_, getFetch]: HookResponse = useFetch()
+  const [, getFetch]: HookResponse = useFetch()
 
   const isItUpdating: boolean = useMemo(() => Object.keys(state?.joke || {}).length >= 1, [state?.joke])
 
-  const handleGoToHome = useCallback(() => navigate('/dashboard'), [])
+  const handleGoToHome = useCallback(() => navigate('/dashboard'), [navigate])
 
-  // Deleting API is not working, it says always: "Data did not have id field"
   const handleDelete = useCallback(async () => {
-    const { joke } = state || {}
+    await getFetch(`${API_JOKES}/${state?.joke?.id}`, { method: 'DELETE' })
 
-    const url: string = `${API_JOKES}/${joke?.id}`
+    navigate('/dashboard')
+  }, [state?.joke, navigate, getFetch])
+
+  const onSubmit = handleSubmit(async (data: any) => {
+    const url: string = `${API_JOKES}${isItUpdating ? `/${state?.joke?.id}` : ''}`
     const options: RequestInit = {
-      method: 'DELETE'
+      method: isItUpdating ? 'PUT' : 'POST',
+      body: JSON.stringify(data)
     }
 
     await getFetch(url, options)
-  }, [state?.joke])
 
-  const onSubmit = useCallback(
-    handleSubmit((data: any) => {
-      console.log('Dat: ', data)
-    }),
-    [handleSubmit]
-  )
+    navigate('/dashboard')
+  })
   
   return (
     <CreateOrUpdateJokeTemplate
