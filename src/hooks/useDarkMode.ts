@@ -13,7 +13,7 @@ export default function useDarkMode(): FnResponse {
 
   const handleCurrentMode = useCallback(() => {
     setMode(currentMode === ThemeEnum.LIGHTMODE ? ThemeEnum.DARKMODE : ThemeEnum.LIGHTMODE)
-  }, [currentMode])
+  }, [currentMode, setMode])
 
   return [currentMode, handleCurrentMode]
 }

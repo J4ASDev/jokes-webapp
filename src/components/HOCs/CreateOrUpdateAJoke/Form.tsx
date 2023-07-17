@@ -23,7 +23,7 @@ function CreateOrUpdateAJokeForm({ children, defaultValues = {} }: any): JSX.Ele
       views: 0,
       ...defaultValues
     }
-  }), [])
+  }), [defaultValues])
 
   return <Form options={options}>{children}</Form>
 }

@@ -7,7 +7,7 @@ type Response = {
 
 export type HookResponse = [Response, (url: string, options?: RequestInit) => Promise<any>]
 
-export default  function (): HookResponse {
+export default function useFetch(): HookResponse {
   const [data, setData] = useState<Response['data']>(null)
   const [error, setError] = useState<Response['error']>(null)
 

@@ -1,4 +1,5 @@
-import React from 'react'
+import styled from 'styled-components'
+
 import Button from '../atoms/Button'
 
 type Props = {
@@ -7,11 +8,22 @@ type Props = {
 
 function LoginTemplate({ handleSetToken }: Props) {
   return (
-    <div>
+    <Wrapper>
       <h1><strong>Logicea</strong> assignment</h1>
-      <Button onClick={handleSetToken} text='Login' />
-    </div>
+      <Button
+        onClick={handleSetToken}
+        text='Login'
+        width='200px'
+        height='40px'
+      />
+    </Wrapper>
   )
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
 export default LoginTemplate

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 
 import LoginTemplate from '../components/templates/Login'
 import { useNavigate } from 'react-router-dom'
@@ -11,7 +11,7 @@ function LoginContainer() {
   const handleSetToken = useCallback(() => {
     localStorage.setItem('token', TOKEN)
     navigate('/dashboard')
-  }, [])
+  }, [navigate])
 
   return (
     <LoginTemplate handleSetToken={handleSetToken} />
