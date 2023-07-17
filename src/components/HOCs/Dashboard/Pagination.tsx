@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import useContext from './Context'
 import Button from '../../atoms/Button'
 import ItemsPerPageEnum from '../../../ts/enums/ItemsPerPageEnum'
+import Select from '../../atoms/Select'
 
 function Pagination() {
   const { data, page, limit, filter, updateData } = useContext()
@@ -29,14 +30,19 @@ function Pagination() {
 
   return (
     <Wrapper>
-      <Button onClick={goBack} text='<' type='button' />
+      <Button onClick={goBack} text='<' type='button' height='40px' width='40px' />
 
-      <Select defaultValue={limit} onChange={onChangeLimit}>
-        <option value={ItemsPerPageEnum.FIVE}>{ItemsPerPageEnum.FIVE}</option>
-        <option value={ItemsPerPageEnum.TEN}>{ItemsPerPageEnum.TEN}</option>
-      </Select>
+      <Select
+        name='itemsPerPage'
+        defaultValue={limit}
+        onChange={onChangeLimit}
+        options={[
+          { value: ItemsPerPageEnum.FIVE, text: ItemsPerPageEnum.FIVE },
+          { value: ItemsPerPageEnum.TEN, text: ItemsPerPageEnum.TEN },
+        ]}
+      />
 
-      <Button onClick={goNext} text='>' type='button' />
+      <Button onClick={goNext} text='>' type='button' height='40px' width='40px' />
     </Wrapper>
   )
 }
@@ -47,10 +53,5 @@ const Wrapper = styled.div`
   gap: 10px;
 `
 
-const Select = styled.select`
-  width: 200px;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 5px;
-`
+
 export default Pagination
