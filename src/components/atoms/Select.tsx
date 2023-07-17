@@ -7,17 +7,19 @@ import SelectOptions from '../../ts/types/SelectOptions'
 type Props = {
   name: string,
   type?: 'text' | 'number',
-  options: SelectOptions[]
+  options: SelectOptions[],
+  defaultValue?: string | number,
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
-function Select({ name, options }: Props) {
+function Select({ name, options, defaultValue, onChange }: Props) {
   const { register, formState: { errors }  } = useFormContext()
 
   const error: string = useMemo(() => String(errors[name]?.message || ''), [errors, name])
 
   return (
     <Wrapper>
-      <SelectWrapper {...register(name)}>
+      <SelectWrapper {...register(name)} defaultValue={defaultValue} onChange={onChange}>
         {options?.map(({ value, text }: SelectOptions) => <option value={value} key={value}>{text}</option>)}
       </SelectWrapper>
 
@@ -39,6 +41,8 @@ const SelectWrapper = styled.select`
   padding: 10px;
   border-radius: 5px;
   border: 1px solid transparent;
+  background: ${({ theme }) => theme.side};
+  color: ${({ theme }) => theme.font};
 
   &:focus {
     outline: none !important;
